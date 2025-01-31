@@ -5,8 +5,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
 require_once __DIR__ . '/Router.php';
-require_once __DIR__ . '/middlewares/loginMiddleware.php';
-require_once __DIR__ . '/middlewares/authenticationMiddleware.php';
+require_once __DIR__ . '/middlewares/LoginMiddleware.php';
+require_once __DIR__ . '/middlewares/AuthenticationMiddleware.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];

@@ -16,7 +16,7 @@ class Router
     {
         $next = function ($request) use ($method, $uri) {
         $routes = [
-            ['uri' => '/Project1/login', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showLogin', 'middleware'=>''],
+            ['uri' => '/Project1/login', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showLogin'],
             ['uri' => '/Project1/login', 'request' => 'POST', 'controller' => 'AuthenticationController', 'method' => 'login'],
             ['uri' => '/Project1/register', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showRegistrationForm'],
             ['uri' => '/Project1/register', 'request' => 'POST', 'controller' => 'AuthenticationController', 'method' => 'register'],

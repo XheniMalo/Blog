@@ -13,9 +13,7 @@
 <body>
     <?php include("navbar.php"); ?>
     <div class="posts-container">
-        <?php
-        
-        if (empty($posts)) {
+        <?php if (empty($posts)) {
             echo '<p>No posts available.</p>';
         } else {
             foreach ($posts as $post) {

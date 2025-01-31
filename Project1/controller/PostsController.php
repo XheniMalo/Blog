@@ -7,7 +7,7 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-        $this->conn = $dbConnection;
+         $this->conn = $dbConnection;
     }
 
     public function post()
@@ -16,11 +16,6 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
         include __DIR__ . '/../views/user/addPost.php';
         exit();
 
@@ -31,18 +26,8 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
 
         $userId = $_SESSION['user_id'] ?? null;
-
-        if ($userId === null) {
-            header("Location: /Project1/login");
-            exit();
-        }
 
         $title = htmlspecialchars($_POST['title']);
         $description = htmlspecialchars($_POST['description']);
@@ -116,11 +101,6 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
 
         $userId = $_SESSION['user_id'] ?? null;
 
@@ -152,26 +132,9 @@ class PostsController
             session_start();
         }
     
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
-
         $userId = $_SESSION['user_id'] ?? null;
 
-        if ($userId === null) {
-            header("Location: /Project1/login");
-            exit();
-        }
-
         $postId = $_POST['post_id'] ?? null;
-
-        if ($postId === null) {
-            $_SESSION['error'] = "Post ID is missing.";
-            header("Location: /Project1/homepage");
-            exit();
-        }
-
 
         $title = htmlspecialchars($_POST['title']);
         $description = htmlspecialchars($_POST['description']);
@@ -238,26 +201,10 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
 
         $userId = $_SESSION['user_id'] ?? null;
 
-        if ($userId === null) {
-            header("Location: /Project1/login");
-            exit();
-        }
-
         $postId = $_POST['post_id'] ?? null;
-
-        if ($postId === null) {
-            $_SESSION['error'] = "Post ID is missing.";
-            header("Location: /Project1/homepage");
-            exit();
-        }
 
         $stmt = $this->conn->prepare("SELECT user_id FROM posts WHERE post_id = ?");
         $stmt->bind_param("i", $postId);
@@ -274,11 +221,6 @@ class PostsController
         $stmt->bind_result($ownerId);
         $stmt->fetch();
 
-        if ($ownerId !== $userId) {
-            $_SESSION['error'] = "You can only delete your own posts.";
-            header("Location: /Project1/homepage");
-            exit();
-        }
         $stmt->close();
 
         $stmt = $this->conn->prepare("SELECT path FROM images WHERE post_id = ?");
@@ -324,11 +266,7 @@ class PostsController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
+
         $remove_images = $_POST['remove_images'];
 
         foreach ($remove_images as $image_id) {

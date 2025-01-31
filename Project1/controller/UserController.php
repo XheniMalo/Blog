@@ -61,17 +61,11 @@ class UserController
 
         return $posts;
     }
-
     public function profile()
 {
     if (session_status() == PHP_SESSION_NONE) {
         session_start();
     }
-
-        if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-            header("Location: /Project1/login");
-            exit();
-        }
         if ($_SESSION['role'] !== 2) {
             header("Location: /Project1/dashboard");
             exit();
@@ -98,18 +92,9 @@ class UserController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
 
         $userId = $_SESSION['user_id'];
 
-        if ($userId === null) {
-            header("Location: /login");
-            exit();
-        }
         if (isset($_POST['update'])) {
             $name = $_POST['name'];
             $email = $_POST['email'];
@@ -162,11 +147,6 @@ class UserController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
 
         $userId = $_SESSION['user_id'];
         $uploadDir = '/var/www/html/Project1/assets/media/'; 
@@ -227,15 +207,7 @@ class UserController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
-            if ($_SESSION['role'] !== 2) {
-                header("Location: /Project1/dashboard");
-                exit();
-            }
+
         include __DIR__ . '/../views/user/securityPage.php';
         exit();
 
@@ -245,11 +217,6 @@ class UserController
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
-    
-            if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-                header("Location: /Project1/login");
-                exit();
-            }
     
         $userId = $_SESSION['user_id'] ;
     

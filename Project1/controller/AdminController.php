@@ -36,12 +36,6 @@ class AdminController
 
         $user_id = $_POST['user_id'] ?? null;
 
-        if (!$user_id) {
-            $_SESSION['error'] = "User ID is missing.";
-            header("Location: /Project1/login");
-            exit();
-        }
-
         $stmt = $this->conn->prepare("SELECT * FROM posts WHERE user_id = ? ORDER BY created_at DESC");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
@@ -77,11 +71,6 @@ class AdminController
     {
 
         $user_id = intval($formData['user_id'] ?? 0);
-        if ($user_id === 0) {
-            $_SESSION['error'] = "Invalid user ID.";
-            header("Location: /Project1/dashboard");
-            exit();
-        }
         $name = $email = $lastname = $birthday = $profession = '';
 
         $stmt = $this->conn->prepare("SELECT name, email, lastname, birthday, profession FROM users WHERE id = ?");
@@ -394,11 +383,6 @@ class AdminController
     public function changePassword()
     {
         $user_id = $_SESSION['user_id'] ?? null;
-        if (!$user_id) {
-            $_SESSION['error'] = 'User is not logged in.';
-            header("Location: /Project1/login");
-            exit();
-        }
 
         $currentPassword = $_POST['current_password'] ?? '';
         $newPassword = $_POST['new_password'] ?? '';
