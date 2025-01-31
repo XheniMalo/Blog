@@ -1,0 +1,121 @@
+body {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+    padding-top: 100px; 
+}
+
+.profile-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin: 30px 20px;
+}
+
+.profile-details {
+    flex: 1;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 40px;
+}
+
+.input-field {
+    margin-bottom: 20px;
+}
+
+.input-field label {
+    display: block;
+    font-weight: 600;
+    color: #0c4f8d;
+    margin-bottom: 8px;
+    font-size: 16px;
+}
+
+.input-field input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s ease;
+}
+
+.input-field input:focus {
+    border-color: #0c4f8d;
+}
+
+.buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.buttons button,
+.btn-primary, 
+.btn-secondary { 
+    font-size: 16px;
+    padding: 12px 20px;
+    background-color: #0c4f8d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 10px 0;
+    display: inline-block;
+}
+
+.buttons button:hover,
+.btn-primary:hover,
+.btn-secondary:hover {
+    background-color: #083b6a;
+}
+
+.btn-secondary {
+    background-color: #ccc;
+}
+
+.btn-secondary:hover {
+    background-color: #999;
+}
+
+.error-message {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.profile-picture {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.profile-picture img {
+    width: 200px; 
+    height: 200px;
+    object-fit: cover;
+
+}
+
+@media (max-width: 768px) {
+    .profile-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .profile-details {
+        width: 100%;
+    }
+
+    .profile-picture {
+        margin-top: 20px;
+    }
+}
