@@ -7,16 +7,16 @@ class AuthenticationMiddleware
             session_start();
         }
         
-      
-        $userRole = $_SESSION['role'];
-
+        $userRole = $_SESSION['role'] ?? null;
        
         $adminPages = [
             '/Project1/dashboard', 
             '/Project1/admin',  
             '/Project1/create', 
             '/Project1/createUser', 
-            '/Project1/deleteUser'
+            '/Project1/deleteUser',
+            '/Project1/passwordadmin',
+            '/Project1/posts'
         ];
 
         $userPages = [
@@ -30,14 +30,14 @@ class AuthenticationMiddleware
 
         if (in_array($uri, $adminPages) && $userRole !== 1) {
             http_response_code(403); 
-            echo "Access Denied: You don't have permission to access this page.";
+            $_SESSION['error'] = "Access Denied: You don't have permission to access this page.";
             header("Location: /Project1/homepage");
             exit();
         }
 
         if (in_array($uri, $userPages) && $userRole === 1) {
             http_response_code(403); 
-            echo "Access Denied: Admins cannot access this page.";
+            $_SESSION['error'] = "Access Denied: Admins cannot access this page.";
             header("Location: /Project1/dashboard");
             exit();
         }

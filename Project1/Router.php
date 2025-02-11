@@ -1,7 +1,8 @@
 <?php
-
+require_once __DIR__ . '/Models/Database.php'; 
 class Router
 {
+    private $conn;
     protected static $middlewares=[];
 
     public static function addMiddleware($middleware)
@@ -16,7 +17,7 @@ class Router
     {
         $next = function ($request) use ($method, $uri) {
         $routes = [
-            ['uri' => '/Project1/login', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showLogin', 'middleware'=>''],
+            ['uri' => '/Project1/login', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showLogin'],
             ['uri' => '/Project1/login', 'request' => 'POST', 'controller' => 'AuthenticationController', 'method' => 'login'],
             ['uri' => '/Project1/register', 'request' => 'GET', 'controller' => 'AuthenticationController', 'method' => 'showRegistrationForm'],
             ['uri' => '/Project1/register', 'request' => 'POST', 'controller' => 'AuthenticationController', 'method' => 'register'],
@@ -35,17 +36,19 @@ class Router
             ['uri' => '/Project1/editPost', 'request' => 'POST', 'controller' => 'PostsController', 'method' => 'editPost'],
             ['uri' => '/Project1/deleteImage', 'request' => 'POST', 'controller' => 'PostsController', 'method' => 'deleteImage'],
             ['uri' => '/Project1/dashboard', 'request' => 'GET', 'controller' => 'AdminController', 'method' => 'showDashboard'],
-            ['uri' => '/Project1/posts', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'showPosts'],
-            ['uri' => '/Project1/deleteUser', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'deleteUser'],
+            ['uri' => '/Project1/posts', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'showPosts'],
+            ['uri' => '/Project1/deleteUser', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'deleteUser'],
             ['uri' => '/Project1/admin', 'request' => 'GET', 'controller' => 'AdminController', 'method' => 'adminProfile'],
             ['uri' => '/Project1/adminprofile', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'updateProfile'],
-            ['uri' => '/Project1/create', 'request' => 'GET', 'controller' => 'AdminController', 'method' => 'showCreate'],
-            ['uri' => '/Project1/createUser', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'createNewUser'],
+            ['uri' => '/Project1/create', 'request' => 'GET', 'controller' => 'AdminUserController', 'method' => 'showCreate'],
+            ['uri' => '/Project1/createUser', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'createNewUser'],
             ['uri' => '/Project1/passwordadmin', 'request' => 'GET', 'controller' => 'AdminController', 'method' => 'password'],
             ['uri' => '/Project1/passwordadmin', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'changePassword'],
             ['uri' => '/Project1/adminpic', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'updateProfilePicture'],
-            ['uri' => '/Project1/userEdit', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'showeditUser'],
-            ['uri' => '/Project1/userEditing', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'editUser'],
+            ['uri' => '/Project1/userEdit', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'showeditUser'],
+            ['uri' => '/Project1/userEditing', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'editUser'],
+            ['uri'=> '/Project1/adminedits', 'request'=> 'GET', 'controller' => 'AdminUserController', 'method'=> 'editPost'],
+            ['uri'=> '/Project1/admindelete', 'request'=> 'POST', 'controller' => 'AdminUserController', 'method'=> 'deletePost'],
 
         ];
         
@@ -58,7 +61,8 @@ class Router
                 include_once __DIR__ . "/controller/{$controllerName}.php";
                 // echo "Loading controller: {$controllerName}, method: {$controllerMethod}\n";  
 
-                include_once __DIR__ . "/database/db.php";
+                $database = new Database();
+                $conn = $database->getConnection();
 
                 $controller = new $controllerName($conn);
                 $controller->$controllerMethod($_POST ?? []);

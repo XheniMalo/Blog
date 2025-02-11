@@ -17,6 +17,12 @@ class LoginMiddleware
             exit();
         }
 
+        if (isset($_SESSION['loggedin']) && in_array($request, $publicRoutes)) {
+            header("Location: /Project1/homepage");
+            exit();
+        }
+
+        
         return $next($request);
 
     }

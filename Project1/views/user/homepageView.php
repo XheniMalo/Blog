@@ -18,6 +18,15 @@
 
     <div class="posts-container">
         <h2>Your Posts</h2>
+        <?php
+        if (isset($_SESSION['error'])):
+            ?>
+            <div class="error-message"
+                style="color: red; padding: 10px; background-color: #f8d7da; border: 1px solid #f5c6cb; margin-bottom: 20px;">
+                <?= $_SESSION['error']; ?>
+            </div>
+            <?php unset($_SESSION['error']); ?>
+        <?php endif; ?>
 
         <?php
         if (empty($posts)) {
