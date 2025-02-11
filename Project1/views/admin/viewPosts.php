@@ -21,12 +21,20 @@
                 <div class="post">
                     <div class="post-content">
                         <div class="post-text">
-                        <form action="/Project1/posts" method="get">
-                            <h3><?php echo htmlspecialchars($post['title']); ?></h3>
+                        <h3><?php echo htmlspecialchars($post['title']); ?></h3>
                             <p><?php echo nl2br(htmlspecialchars($post['description'])); ?></p>
                             <p><strong>Posted on:</strong> <?php echo htmlspecialchars($post['created_at']); ?></p>
-                            </div>
-                        </form>
+
+                            <form action="/Project1/adminedits" method="post">
+                                <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
+                                <button type="submit" class="btn">Edit</button>
+                            </form>
+
+                            <form action="/Project1/admindelete" method="post" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                <input type="hidden" name="post_id" value="<?php echo htmlspecialchars($post['post_id']); ?>">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
 
                             <?php if (!empty($post['images'])): ?>
                             <div class="post-images-container">

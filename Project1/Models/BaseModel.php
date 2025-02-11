@@ -32,21 +32,37 @@ class BaseModel extends Database
     public function fetchAll($sql, $params = [])
     {
         $result = $this->query($sql, $params);
+        if ($result === false) {
+            return null;
+        }
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
     public function execute($sql, $params = [])
     {
         $stmt = $this->conn->prepare($sql);
+    
         if ($params) {
-            $types = str_repeat('s', count($params));
+            $types = '';
+            foreach ($params as $param) {
+                if (is_int($param)) {
+                    $types .= 'i'; 
+                } elseif (is_float($param)) {
+                    $types .= 'd'; 
+                } else {
+                    $types .= 's'; 
+                }
+            }
+    
             $stmt->bind_param($types, ...$params);
         }
-     $stmt->execute();
-
-     return $stmt->insert_id ?: $stmt->affected_rows;
+        if (!$stmt->execute()) {
+            die("Execution Error: " . $stmt->error);
+        }
+    
+        return $stmt->insert_id ?: $stmt->affected_rows;
     }
-
+    
 
     public function delete($id)
 {

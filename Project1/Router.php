@@ -47,6 +47,8 @@ class Router
             ['uri' => '/Project1/adminpic', 'request' => 'POST', 'controller' => 'AdminController', 'method' => 'updateProfilePicture'],
             ['uri' => '/Project1/userEdit', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'showeditUser'],
             ['uri' => '/Project1/userEditing', 'request' => 'POST', 'controller' => 'AdminUserController', 'method' => 'editUser'],
+            ['uri'=> '/Project1/adminedits', 'request'=> 'GET', 'controller' => 'AdminUserController', 'method'=> 'editPost'],
+            ['uri'=> '/Project1/admindelete', 'request'=> 'POST', 'controller' => 'AdminUserController', 'method'=> 'deletePost'],
 
         ];
         

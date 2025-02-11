@@ -28,12 +28,14 @@ class Database
         if ($this->conn) {
             $this->conn->close();
         }
-        
+
         return $this->conn;
     }
+
     public function query($sql, $params = [])
     {
         $stmt = $this->conn->prepare($sql);
+
         if ($params) {
             $types = str_repeat('s', count($params));
             $stmt->bind_param($types, ...$params);
@@ -41,21 +43,6 @@ class Database
         $stmt->execute();
         return $stmt->get_result();
     }
-    // public function fetchOne($sql, $params = [])
-    // {
-    //     $result = $this->query($sql, $params);
-    //     if ($result === false) {
-    //         return null;
-    //     }
-    //     return $result->fetch_assoc();
-    // }
-
-    // public function fetchAll($sql, $params = [])
-    // {
-    //     $result = $this->query($sql, $params);
-    //     return $result->fetch_all(MYSQLI_ASSOC);
-    // }
-
 
     public function fetchColumn(string $query, array $params = []): array
     {
