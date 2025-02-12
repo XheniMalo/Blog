@@ -2,6 +2,7 @@
 
 <head>
     <link rel="stylesheet" href="/Project1/assets/css/navbar.css">
+
 </head>
 
 <body>

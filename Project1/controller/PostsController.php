@@ -25,40 +25,43 @@ class PostsController
 
     }
 
-    public function addPost()
+    public function addPost(array $formData)
     {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
+        require_once '/var/www/html/Project1/Validations/Validations.php';
+        $validations = new Validations();
 
         $userId = $_SESSION['user_id'] ?? null;
-     
-        $title = htmlspecialchars($_POST['title'] ?? '');
-        $description = htmlspecialchars($_POST['description'] ?? '');
+
+        $validations->required('title', $formData['title']);
+        $validations->required('description', $formData['description']);
+
         $images = $_FILES['file'] ?? null;
 
-        if (empty($title) || empty($description)) {
-            $_SESSION['error'] = "Title and description are required.";
-            header("Location: /Project1/homepage");
+
+        if (!$images || empty($images['name'][0])) {
+            $_SESSION['errors'][]= "No images selected.";
+        }
+
+        if (!$validations->isValid()) {
+            $_SESSION['errors'] = $validations->getErrors();
+            $_SESSION['old'] = $formData;
+            header("Location: /Project1/post");
             exit();
         }
 
-        if (!$images || empty($images['name'][0])) {
-            $_SESSION['error'] = "No images selected.";
-            header("Location: /Project1/homepage");
+        if (!empty($_SESSION['errors'])) {
+            header("Location: /Project1/post");
             exit();
         }
 
         $uploadDir = "/var/www/html/Project1/assets/media/uploads/";
         $allowedExt = ['jpg', 'jpeg', 'png'];
 
-        $postId = $this->postModel->execute("INSERT INTO posts (user_id, title, description) VALUES (?, ?, ?)", [$userId, $title, $description]);
+        $postId = $this->postModel->execute(
+            "INSERT INTO posts (user_id, title, description) VALUES (?, ?, ?)",
+            [$userId, $formData['title'], $formData['description']]
+        );
 
-        if (!$postId) {
-            $_SESSION['error'] = "Failed to add post.";
-            header("Location: /Project1/homepage");
-            exit();
-        }
 
         foreach ($images['name'] as $key => $imageName) {
             if ($images['error'][$key] !== UPLOAD_ERR_OK) {
@@ -86,8 +89,14 @@ class PostsController
             }
         }
 
+
+        if (!empty($_SESSION['errors'])) {
+            header("Location: /Project1/homepage");
+            exit();
+        }
+
         $_SESSION['success'] = "Post and images uploaded successfully!";
-        header("Location: /Project1/homepage");
+        header("Location: /Project1/post");
         exit();
     }
 
@@ -127,7 +136,7 @@ class PostsController
 
         $userId = $_SESSION['user_id'] ?? null;
         $postId = $_POST['post_id'] ?? null;
-    
+
 
         $title = htmlspecialchars($_POST['title']);
         $description = htmlspecialchars($_POST['description']);

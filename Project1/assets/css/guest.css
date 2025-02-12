@@ -1,5 +1,5 @@
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif ;
     margin: 0;
     padding: 0;
     background-color: #f9f9f9;
@@ -17,8 +17,8 @@ body {
 }
 
 h2 {
-    text-align: center;
-    color: #0c4f8d;
+    text-align: center ;
+    color: #0c4f8d ;
 }
 
 .input-field {
@@ -42,7 +42,7 @@ h2 {
     box-shadow: 0 0 4px rgba(12, 79, 141, 0.2);
 }
 
-.input-field label {
+.input-field label{
     padding-bottom: 10px;
     position: absolute;
     top: 50%;
@@ -60,6 +60,14 @@ h2 {
     left: 10px;
     font-size: 12px;
     color: #0c4f8d;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.is-invalid + label {
+    color: #dc3545 !important;
 }
 
 button {

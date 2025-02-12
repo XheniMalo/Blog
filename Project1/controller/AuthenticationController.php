@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../Models/User.php';
+
 class AuthenticationController
 {
     private $userModel;
@@ -50,43 +51,45 @@ class AuthenticationController
 
     public function register(array $formData): void
     {
-        $name = $formData['name'] ?? '';
-        $lastname = $formData['lastname'] ?? '';
-        $email = $formData['email'] ?? '';
-        $password = $formData['password'] ?? '';
-        $passwordConfirm = $formData['passwordconfirm'] ?? '';
-        $birthday = $formData['birthday'] ?? '';
-        $profession = $formData['profession'] ?? '';
+        require_once '/var/www/html/Project1/Validations/Validations.php';
+
+        $validations = new Validations();
+
+        $validations->required('name', $formData['name']);
+        $validations->required('lastname', $formData['lastname']);
+        $validations->email('email', $formData['email']);
+        $validations->required('password', $formData['password']);
+        $validations->passwordValidation('password', $formData['password']);
+        $validations->required('passwordconfirm', $formData['passwordconfirm']);
+        $validations->required('birthday', $formData['birthday']);
+        $validations->required('profession', $formData['profession']);
+
         $role_id = 2;
         $default_picture = '/assets/media/default.jpg';
 
-        if ($password !== $passwordConfirm) {
-            $_SESSION['error'] = "Passwords do not match.";
+
+        if ($formData['password'] !== $formData['passwordconfirm']) {
+            $validations->addError('passwordconfirm', "Passwords do not match.");
+        }
+
+        if (!$validations->validateBirthday($formData['birthday'])) {
+            $validations->addError('birthday', "Invalid birthday date.");
+        }
+
+        if ($this->userModel->findByEmail($formData['email'])) {
+            $validations->addError('email', "Email already exists.");
+        }
+
+        if (!$validations->isValid()) {
+            $_SESSION['errors'] = $validations->getErrors();
+            $_SESSION['old'] = $formData;
             header("Location: /Project1/register");
             exit();
         }
 
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $_SESSION['error'] = "Invalid email format.";
-            header("Location: /Project1/register");
-            exit();
-        }
+        $hashedPassword = password_hash($formData['password'], PASSWORD_BCRYPT);
 
-        if (!$this->validateBirthday($birthday)) {
-            $_SESSION['error'] = "Invalid birthday date.";
-            header("Location: /Project1/register");
-            exit();
-        }
-
-        if ($this->userModel->findByEmail($email)) {
-            $_SESSION['error'] = "Email already exists.";
-            header("Location: /Project1/register");
-            exit();
-        }
-
-        $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-
-        $created = $this->userModel->createUser($name, $lastname, $email, $hashedPassword, $birthday, $profession, $role_id, $default_picture);
+        $created = $this->userModel->createUser($formData['name'], $formData['lastname'], $formData['email'], $hashedPassword, $formData['birthday'], $formData['profession'], $role_id, $default_picture);
 
         if ($created) {
             $_SESSION['registered'] = true;
@@ -95,18 +98,8 @@ class AuthenticationController
         }
 
         $_SESSION['error'] = "Error registering user.";
-        header("Location: /Project1/register");
+        header("Location: /Project1/login");
         exit();
-    }
-
-    private function validateBirthday(string $birthday): bool
-    {
-        $date = DateTime::createFromFormat('Y-m-d', $birthday);
-        if (!$date)
-            return false;
-
-        $today = new DateTime();
-        return $date <= $today && $today->diff($date)->y <= 120;
     }
 
     public function logout(): void

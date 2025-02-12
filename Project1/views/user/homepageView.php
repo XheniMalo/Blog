@@ -11,22 +11,15 @@
     <title>Your Posts</title>
     <link rel="stylesheet" href="/Project1/assets/css/navbar.css">
     <link rel="stylesheet" href="/Project1/assets/css/home.css">
+
 </head>
 
 <body>
     <?php include("navbar.php"); ?>
 
     <div class="posts-container">
-        <h2>Your Posts</h2>
-        <?php
-        if (isset($_SESSION['error'])):
-            ?>
-            <div class="error-message"
-                style="color: red; padding: 10px; background-color: #f8d7da; border: 1px solid #f5c6cb; margin-bottom: 20px;">
-                <?= $_SESSION['error']; ?>
-            </div>
-            <?php unset($_SESSION['error']); ?>
-        <?php endif; ?>
+    
+       
 
         <?php
         if (empty($posts)) {
@@ -37,6 +30,7 @@
                 <div class="post">
                     <div class="post-content">
                         <div class="post-text">
+                        <p><strong>Created by:</strong> <?php echo htmlspecialchars($post['name']); ?></p>
                             <form method="POST" action="/Project1/edit" class="d-inline">
                                 <h3><?php echo htmlspecialchars($post['title']); ?></h3>
                                 <p><?php echo nl2br(htmlspecialchars($post['description'])); ?></p>

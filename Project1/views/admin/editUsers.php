@@ -9,6 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
     <link rel="stylesheet" href="/Project1/assets/css/editUsers.css">
+
 </head>
 
 <body>
@@ -65,7 +66,7 @@
                     </div>
                     <div class="buttons">
                         <button type="button" class="btn btn-secondary"
-                            onclick="window.location.href='dashboard.php'">Cancel</button>
+                            onclick="window.location.href='/Project1/dashboard'">Cancel</button>
                     </div>
                 </form>
             </div>
