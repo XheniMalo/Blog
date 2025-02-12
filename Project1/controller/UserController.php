@@ -32,8 +32,8 @@ class UserController
         $name = $user['name'] ?? '';
         $email = $user['email'] ?? '';
 
-        $posts = $this->postModel->getUserPosts($userId);
 
+        $posts = $this->postModel->getAllPosts();
         foreach ($posts as &$post) {
             $post['images'] = $this->postModel->getPostImages($post['post_id']);
         }

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../Models/BaseModel.php';
 
+
 class User extends BaseModel
 {
     protected $table = 'users';
@@ -31,7 +32,8 @@ class User extends BaseModel
         return $stmt->execute();
     }
 
-    public function updateUserProfile($userId, $name, $email, $lastname, $birthday, $profession)    
+
+    public function updateUserProfile($userId, $name, $email, $lastname, $birthday, $profession)   
     {
         $sql = "UPDATE users SET name = ?, email = ?, lastname = ?, birthday = ?, profession = ? WHERE id = ?";
         $params = [$name, $email, $lastname, $birthday, $profession, $userId];

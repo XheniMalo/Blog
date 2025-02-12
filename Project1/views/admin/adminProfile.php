@@ -9,6 +9,7 @@
     <title>Your Profile</title>
     <link rel="stylesheet" href="/Project1/assets/css/navbar.css">
     <link rel="stylesheet" href="/Project1/assets/css/profile.css">
+
 </head>
 
 <body>

@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="/Project1/assets/css/adminDashboard.css">
+
 </head>
 
 <body>
